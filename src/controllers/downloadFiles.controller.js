@@ -26,7 +26,7 @@ module.exports = async (req, res) => {
     await Promise.all(
       JSON_ARRAY.map(async (item) => {
         // Validate the file object
-        if (!validateFile(item)) {
+        if (!(await validateFile(item))) {
           failedItems.push(item);
           return;
         }
@@ -84,7 +84,7 @@ module.exports = async (req, res) => {
             totalRetries++;
             attempts++;
 
-            if (attempts == config.MAX_RETRIES) {
+            if (attempts === config.MAX_RETRIES) {
               // If all attempts fail, log the error and add to failed URLs
               DownloadFilesLogger.error(
                 `Attempt ${attempts} failed for File: ${fileName}, Error: ${error.message}`

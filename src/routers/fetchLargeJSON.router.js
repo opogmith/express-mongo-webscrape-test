@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const fetchLargeJSONController = require("../controllers/fetchLargeJSON.controller");
 
-router.get("/", fetchLargeJSONController);
+router.post("/", fetchLargeJSONController);
 
 module.exports = router;

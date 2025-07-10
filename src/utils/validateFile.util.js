@@ -2,7 +2,9 @@ const DownloadFilesLogger = require("winston").loggers.get(
   "DownloadFilesLogger"
 );
 
-module.exports = function validateFile(file) {
+const validateURL = require("../utils/validateURL.util");
+
+module.exports = async function validateFile(file) {
   const validFileFormats = ["pdf", "jpeg", "jpg", "png", "gif"];
 
   // Check if the file object is valid
@@ -14,7 +16,10 @@ module.exports = function validateFile(file) {
   }
 
   // Check if the file object has the required properties
-  if (typeof file.url !== "string" || typeof file.fileName !== "string") {
+  if (
+    !(await validateURL(file.url, DownloadFilesLogger)) ||
+    typeof file.fileName !== "string"
+  ) {
     DownloadFilesLogger.error(
       `Invalid types in JSON array: ${JSON.stringify(file)}`
     );

@@ -7,11 +7,25 @@ const FetchLargeJSONLogger = require("winston").loggers.get(
   "FetchLargeJSONLogger"
 );
 
+const validateURL = require("../utils/validateURL.util");
+
 module.exports = async (req, res) => {
   try {
-    const photosJSON = await axios.get(
-      "https://jsonplaceholder.typicode.com/photos"
-    );
+    const photosURL = req.body.photosURL;
+
+    if (!photosURL) {
+      FetchLargeJSONLogger.error(`No photosURL provided.`);
+      return res._400("No photosURL provided.");
+    }
+
+    // Validate the URL
+    if (!(await validateURL(photosURL, FetchLargeJSONLogger))) {
+      return res._400("Invalid URL provided.");
+    }
+
+    // Fetch the JSON data from the provided URL
+    FetchLargeJSONLogger.info(`Fetching JSON data from: ${photosURL}`);
+    const photosJSONData = (await axios.get(photosURL)).data;
 
     const batches = [];
     let totalRetries = 0;
@@ -19,8 +33,8 @@ module.exports = async (req, res) => {
     let totalFailed = 0;
 
     // Group photos data into batches
-    for (let i = 0; i < photosJSON.data.length; i += config.BATCH_SIZE) {
-      const batch = photosJSON.data.slice(i, i + config.BATCH_SIZE);
+    for (let i = 0; i < photosJSONData.length; i += config.BATCH_SIZE) {
+      const batch = photosJSONData.slice(i, i + config.BATCH_SIZE);
       batches.push(batch);
     }
 
@@ -48,7 +62,7 @@ module.exports = async (req, res) => {
           totalRetries++;
           attempts++;
 
-          if (attempts == config.MAX_RETRIES) {
+          if (attempts === config.MAX_RETRIES) {
             //Create a Log Transport
             FetchLargeJSONLogger.error(
               `Attempt ${attempts} failed for batch: ${index + 1}, Error: ${
