@@ -10,7 +10,7 @@ const FetchLargeJSONLogger = require("winston").loggers.get(
 module.exports = async (req, res) => {
   try {
     const photosJSON = await axios.get(
-      "https://jsonplaceholder.typicode.com/photos?_limit=20"
+      "https://jsonplaceholder.typicode.com/photos"
     );
 
     const batches = [];
