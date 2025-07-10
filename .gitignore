@@ -3,3 +3,7 @@ node_modules/
 .vscode/
 .DS_Store
 *.log
+downloads/*.jpeg
+downloads/*.pdf
+downloads/*.png
+downloads/*.jpg

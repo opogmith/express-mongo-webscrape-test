@@ -4,14 +4,14 @@ const config = require("./src/config");
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const morgan = require("morgan");
+const MorganMiddleware = require("./src/middlewares/morgan.middleware");
 
 const ResponseFormatter = require("./src/middlewares/responseFormatter.middleware");
 const routes = require("./routes");
 
 const app = express();
 app.use(cors());
-app.use(morgan("dev")); // Logging middleware
+app.use(MorganMiddleware);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(ResponseFormatter);
