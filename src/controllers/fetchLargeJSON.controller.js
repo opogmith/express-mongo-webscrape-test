@@ -2,6 +2,10 @@ const axios = require("axios");
 const Photo = require("../models/photos.model");
 const config = require("../config");
 
+require("../middlewares/loggers.middleware");
+const winston = require("winston");
+const FetchLargeJSONLogger = winston.loggers.get('FetchLargeJSONLogger');
+
 module.exports = async (req, res) => {
   try {
     const photosJSON = await axios.get(
@@ -34,23 +38,26 @@ module.exports = async (req, res) => {
             data: batch,
           });
 
-          console.log(`Batch ${index + 1} inserted successfully.`);
+          //Create a Log Transport
+          FetchLargeJSONLogger.info(`Batch ${index + 1} inserted successfully with Batch Size of ${batch.length}.`)
 
           success = true;
         } catch (error) {
           attempts++;
 
-          console.error(
-            `Attempt ${attempts} failed for batch: ${index + 1}, Error:`,
-            error.message
-          );
-
-          if (attempts === config.MAX_RETRIES) {
+          if (attempts == config.MAX_RETRIES) {
             failedBatches.push({
               batch: index + 1, // Store the batch number
               data: batch,
               error: error.message,
             });
+
+            //Create a Log Transport
+            FetchLargeJSONLogger.error(`Attempt ${attempts} failed for batch: ${index + 1}, Error: ${error.message}`);
+          } else {
+            //* Add delay before retry
+            console.log(`Retries in : ${0.5 * attempts}s . . . .`)
+            await new Promise((resolve) => setTimeout(resolve, 500 * attempts));
           }
         }
       }
@@ -61,7 +68,7 @@ module.exports = async (req, res) => {
       "Photos JSON fetched and processed successfully."
     );
   } catch (error) {
-    console.error("Error fetching photos JSON:", error);
+    FetchLargeJSONLogger.error(error);
     res._500(error.message || "Failed to fetch photos JSON");
   }
 };
