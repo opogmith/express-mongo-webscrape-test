@@ -13,10 +13,7 @@ const downloadSchema = new Schema(
     },
     failureReason: { type: String, default: null },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const Download = mongoose.model("Download", downloadSchema);
-module.exports = Download;
+module.exports = mongoose.model("Download", downloadSchema);

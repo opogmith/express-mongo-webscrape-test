@@ -9,7 +9,7 @@ const saveBatchWithRetry = require("../utils/saveBatchWithRetry.util");
 
 module.exports = async (req, res) => {
   try {
-    const { url } = req.body;
+    const { targetURL } = req.body;
 
     const browser = await puppeteer.launch({
       headless: false,
@@ -17,7 +17,7 @@ module.exports = async (req, res) => {
     });
     const page = await browser.newPage();
 
-    let currentPage = url;
+    let currentPage = targetURL;
     let hasNext = true;
     const allProducts = [];
 
@@ -73,7 +73,7 @@ module.exports = async (req, res) => {
 
     res._200(
       { ...data },
-      `Scraped ${allProducts.length} products from "${url}" successfully.\n${message}`
+      `Scraped ${allProducts.length} products from "${targetURL}" successfully.\n${message}`
     );
   } catch (error) {
     ScrapeProductsLogger.error(error);
