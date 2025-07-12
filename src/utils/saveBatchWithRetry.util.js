@@ -1,6 +1,6 @@
 const config = require("../config");
 
-module.exports = async function saveWithRetry(Items, Model, Logger) {
+module.exports = async function saveBatchWithRetry(Items, Model, Logger) {
   const batches = [];
   let totalFailed = 0;
   let totalSaved = 0;
