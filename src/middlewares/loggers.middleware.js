@@ -70,3 +70,22 @@ winston.loggers.add("DownloadFilesLogger", {
   ],
   defaultMeta: { service: "DownloadFilesController" },
 });
+
+winston.loggers.add("ScrapeProductsLogger", {
+  levels: customLevels.levels,
+  level: "debug",
+  format: combine(errors({ stack: true }), timestamp(), json(), prettyPrint()),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({
+      filename: "logs/errors/ScrapeProducts.log",
+      level: "error",
+    }),
+    new winston.transports.File({
+      filename: "logs/info/ScrapeProducts.log",
+      level: "info",
+      format: combine(levelFilter("info"), timestamp(), json(), prettyPrint()),
+    }),
+  ],
+  defaultMeta: { service: "ScrapeProductsController" },
+});
