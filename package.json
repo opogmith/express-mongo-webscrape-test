@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":  "nodemon --inspect app.js"
+    "start": "nodemon --inspect app.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +19,7 @@
     "mongoose": "^8.16.2",
     "morgan": "^1.10.0",
     "puppeteer": "^24.12.0",
+    "uuid": "^11.1.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {

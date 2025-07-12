@@ -3,8 +3,8 @@ const puppeteer = require("puppeteer");
 module.exports = async function scrapeTarget(targetURL, Logger) {
   try {
     const browser = await puppeteer.launch({
-      headless: false,
-      defaultViewport: null,
+      // headless: false,
+      // defaultViewport: null,
     });
     const page = await browser.newPage();
 

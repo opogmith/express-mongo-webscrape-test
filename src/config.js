@@ -9,6 +9,7 @@ const config = {
   BATCH_SIZE: Number(process.env.BATCH_SIZE) || 10,
   MAX_RETRIES: Number(process.env.MAX_RETRIES) || 3,
   DOWNLOAD_DIR: process.env.DOWNLOAD_DIR || "downloads",
+  IMAGES_DIR: process.env.IMAGES_DIR || "images",
 };
 
 module.exports = config;

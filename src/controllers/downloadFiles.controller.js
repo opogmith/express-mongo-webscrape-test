@@ -2,6 +2,7 @@ const axios = require("axios");
 const config = require("../config");
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 require("../middlewares/loggers.middleware");
 const DownloadFilesLogger = require("winston").loggers.get(
@@ -26,7 +27,7 @@ module.exports = async (req, res) => {
     await Promise.all(
       JSON_ARRAY.map(async (item) => {
         const { url, fileName } = item;
-        const filePath = `${config.DOWNLOAD_DIR}/${fileName}`;
+        let filePath = `${config.DOWNLOAD_DIR}/${fileName}`;
 
         // Validate the file object before proceeding, short-circuit if invalid
         // If validation fails, save the item to database as failed and push to failedItems
@@ -48,6 +49,12 @@ module.exports = async (req, res) => {
         const downloadDir = path.resolve(config.DOWNLOAD_DIR);
         if (!fs.existsSync(downloadDir)) {
           fs.mkdirSync(downloadDir, { recursive: true });
+        }
+
+        //* Add UUID to name if fileName already in-use
+        if (fs.existsSync(filePath)) {
+          let uniqueID = uuidv4().split("-").pop();
+          filePath = `${config.DOWNLOAD_DIR}/${uniqueID}-${fileName}`;
         }
 
         let attempts = 0;

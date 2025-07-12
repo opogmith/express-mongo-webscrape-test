@@ -9,7 +9,7 @@ const DownloadFilesLogger = require("winston").loggers.get(
   "DownloadFilesLogger"
 );
 
-const downloadDir = `${config.DOWNLOAD_DIR}/images/`;
+const imagesDir = `${config.IMAGES_DIR}`;
 
 const saveBatchWithRetry = require("../utils/saveBatchWithRetry.util");
 const scrapeTarget = require("../utils/scrapeTarget.util");
@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
         const image = await downloadFromURL(
           imageURL,
           imageURL.split("/").pop(),
-          downloadDir,
+          imagesDir,
           DownloadFilesLogger
         );
 

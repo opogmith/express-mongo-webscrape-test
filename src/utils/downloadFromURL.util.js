@@ -2,6 +2,7 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 const config = require("../config");
+const { v4: uuidv4 } = require("uuid");
 
 const validateURL = require("../utils/validateURL.util");
 
@@ -15,7 +16,16 @@ module.exports = async function downloadFromURL(
   let downloadSuccess = false;
 
   try {
-    const filePath = path.join(downloadDir, fileName);
+    if (!fs.existsSync(downloadDir)) {
+      fs.mkdirSync(downloadDir, { recursive: true });
+    }
+
+    let filePath = path.join(downloadDir, fileName);
+    //* Add UUID if fileName already in-use
+    if (fs.existsSync(filePath)) {
+      let uniqueFilename = `${uuidv4().split("-").pop()}-${fileName}`;
+      filePath = path.join(downloadDir, uniqueFilename);
+    }
 
     const isValidURL = await validateURL(url, logger);
 
