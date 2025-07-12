@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
         // Validate the file object before proceeding, short-circuit if invalid
         // If validation fails, save the item to database as failed and push to failedItems
         if (!(await validateFile({ url, fileName }))) {
-          failureReason = "Invalid file format or URL";
+          let failureReason = "Invalid file format or URL";
           failedItems.push({ url, fileName, failureReason });
 
           await Downloads.create({

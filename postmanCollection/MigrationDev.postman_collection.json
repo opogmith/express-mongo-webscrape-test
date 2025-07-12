@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "332faf99-e665-4a11-bae0-d52788875249",
+		"name": "MigrationDev",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26599300"
+	},
+	"item": [
+		{
+			"name": "Part 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"photosURL\": \"https://jsonplaceholder.typicode.com/photos\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/fetch-large-json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"fetch-large-json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Part 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"jsonArray\": [\n    {\n      \"url\": \"https://picsum.photos/id/1074/600/400\",\n      \"fileName\": \"picsum_1074.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/1084/800/600\",\n      \"fileName\": \"picsum_1084.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/109/1024/768\",\n      \"fileName\": \"picsum_109.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/110/640/480\",\n      \"fileName\": \"picsum_110.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/111/500/500\",\n      \"fileName\": \"picsum_111.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/112/720/480\",\n      \"fileName\": \"picsum_112.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/113/1200/800\",\n      \"fileName\": \"picsum_113.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/114/1280/720\",\n      \"fileName\": \"picsum_114.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/115/1920/1080\",\n      \"fileName\": \"picsum_115.jpg\"\n    },\n    {\n      \"url\": \"https://picsum.photos/id/116/350/350\",\n      \"fileName\": \"picsum_116.jpg\"\n    }\n  ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/download-files",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"download-files"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Part 3",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"targetURL\": \"https://books.toscrape.com/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/scrape-products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"scrape-products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Part 4",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"targetURL\": \"https://books.toscrape.com/\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/scrape-and-download",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"scrape-and-download"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

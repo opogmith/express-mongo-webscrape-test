@@ -13,6 +13,8 @@ module.exports = async function scrapeTarget(targetURL, Logger) {
     const scrapedProducts = [];
 
     while (hasNext) {
+      Logger.info(`Scraping Started for Page: "${currentPage}"`);
+
       await page.goto(currentPage, { waitUntil: "domcontentloaded" });
       await page.waitForSelector("ol.row > li");
 
