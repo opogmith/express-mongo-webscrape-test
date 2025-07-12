@@ -14,9 +14,9 @@ module.exports = async function validateURL(url, logger) {
     return false;
   }
 
-  let parsed;
+  let parsedURL;
   try {
-    parsed = new URL(trimmedURL);
+    parsedURL = new URL(trimmedURL);
   } catch (error) {
     logger.error(`Invalid URL format: ${error.message}`);
     return false;
@@ -24,10 +24,10 @@ module.exports = async function validateURL(url, logger) {
 
   // DNS check: ensure hostname exists
   try {
-    await dns.lookup(parsed.hostname);
+    await dns.lookup(parsedURL.hostname);
   } catch (dnsError) {
     logger.error(
-      `DNS lookup failed for host '${parsed.hostname}': ${dnsError.code}`
+      `DNS lookup failed for host '${parsedURL.hostname}': ${dnsError.code}`
     );
     return false;
   }

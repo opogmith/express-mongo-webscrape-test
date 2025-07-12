@@ -11,6 +11,7 @@ const downloadSchema = new Schema(
       enum: ["pending", "completed", "failed"],
       default: "pending",
     },
+    failureReason: { type: String, default: null },
   },
   {
     timestamps: true,

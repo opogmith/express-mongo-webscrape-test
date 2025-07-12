@@ -25,14 +25,23 @@ module.exports = async (req, res) => {
     // Makes sure that the Download Logic finnishes before sending the response
     await Promise.all(
       JSON_ARRAY.map(async (item) => {
-        // Validate the file object
-        if (!(await validateFile(item))) {
-          failedItems.push(item);
-          return;
-        }
-
         const { url, fileName } = item;
         const filePath = `${config.DOWNLOAD_DIR}/${fileName}`;
+
+        // Validate the file object before proceeding, short-circuit if invalid
+        // If validation fails, save the item to database as failed and push to failedItems
+        if (!(await validateFile({ url, fileName }))) {
+          failedItems.push({ url, fileName });
+
+          await Downloads.create({
+            url,
+            fileName,
+            status: "failed",
+            failureReason: "Invalid file format or URL",
+          });
+
+          return;
+        }
 
         // Ensure the download directory exists
         const downloadDir = path.resolve(config.DOWNLOAD_DIR);
@@ -94,7 +103,7 @@ module.exports = async (req, res) => {
               // Update the download entry status to failed
               await Downloads.updateOne(
                 { _id: downloadEntry._id },
-                { status: "failed" }
+                { status: "failed", failureReason: "Max retries reached" }
               );
 
               return;
