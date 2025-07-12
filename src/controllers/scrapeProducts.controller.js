@@ -1,4 +1,3 @@
-const config = require("../config");
 const puppeteer = require("puppeteer");
 const ScrapedProducts = require("../models/scrapedProducts.model");
 
@@ -56,8 +55,7 @@ module.exports = async (req, res) => {
         .$eval(".pager li.next a", (a) => a.getAttribute("href"))
         .catch(() => null);
 
-      //! Remove limit of 200 products later
-      if (nextHref && allProducts.length < 100) {
+      if (nextHref) {
         currentPage = new URL(nextHref, currentPage).href;
       } else {
         hasNext = false;
